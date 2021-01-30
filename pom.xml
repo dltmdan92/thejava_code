@@ -31,6 +31,13 @@
       <version>RELEASE</version>
       <scope>test</scope>
     </dependency>
+
+    <!-- 바이트버디를 통해 바이트코드 조작을 해보자 -->
+    <dependency>
+      <groupId>net.bytebuddy</groupId>
+      <artifactId>byte-buddy</artifactId>
+      <version>LATEST</version>
+    </dependency>
   </dependencies>
 
   <build>
@@ -126,7 +133,6 @@
           <artifactId>maven-project-info-reports-plugin</artifactId>
           <version>3.0.0</version>
         </plugin>
-
 
       </plugins>
     </pluginManagement>
