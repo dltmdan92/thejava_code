@@ -38,10 +38,12 @@ public class App
         //new ByteBuddy().redefine(Moja.class)
 
         // 이렇게 하면 실행하면서 Byte 코드를 직접 조작하고, 반영되므로 Rabbit이 출력된다.
+        // BUT! 이방식 말고 javaagent를 통해서 Rabbit이 나오게 해보자
+        /*
         new ByteBuddy().redefine(typePool.describe("org.example.magic.Moja").resolve(), ClassFileLocator.ForClassLoader.of(classLoader))
                 .method(named("pullOut")).intercept(FixedValue.value("Rabiit!"))
                 .make().saveIn(new File("D:\\work\\workspace\\IdeaProjects\\jvminternal\\target\\classes"));
-
+        */
         // ""을 리턴하는 모자에서 "Rabbit"을 꺼내보자 (바이트코드를 조작)
         // 우선 위의 소스(ByteBuddy)를 먼저 실행시켜서 target class에 생성하고
         // 그 다음에 아래 출력 메소드를 실행시키면 확인 가능하다.
@@ -49,6 +51,13 @@ public class App
         //System.out.println(new Moja().pullOut());
         // BUT!! 먼저 Byte 조작코드를 먼저 돌리고 나서 One-Stop으로 new Moja().pullOut()에서 Rabbit이 나올 수 있게 가능하다.
 
+        // javaagent를 통해서 Rabbit이 나오게 한다.
         System.out.println(new Moja().pullOut());
+
+        /**
+         * javaagent는 다른 방식과는 다르게 파일의 바이트코드를 조작해서 class파일을 만드는게 아니다.
+         * 클래스 파일은 그대로 이고, 클래스로더에서 클래스를 읽을 때 bytecode를 조작하는 방식이다.
+         * --> 이 방식이 좀 더 Transparent 한 방식이다. (비침투적, 기존 코드를 건드리지 않음)
+         */
     }
 }
